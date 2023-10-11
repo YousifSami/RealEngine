@@ -1,6 +1,6 @@
 #include "CoreMinimal.h"
 #include "Window/Window.h"
-#include "SDL2/SDL.h"
+
 
 Window::Window()
 {
@@ -8,6 +8,7 @@ Window::Window()
 	m_Renderer = nullptr;
 	m_Width = m_Height = 0;
 	m_Title = "";
+	m_BGColour = { 35, 35, 35, 255 };
 }
 
 Window::~Window()
@@ -16,7 +17,7 @@ Window::~Window()
 	m_Renderer = nullptr;
 }
 
-bool Window::CreateWindow(REString Title, int Width, int Height)
+bool Window::CreateWindow(REString Title, int Width, int Height, SDL_Color Colour)
 {
 	//use SDL to create a window
 	m_Window = SDL_CreateWindow(
@@ -36,6 +37,7 @@ bool Window::CreateWindow(REString Title, int Width, int Height)
 	m_Title = Title;
 	m_Width = Width;
 	m_Height = Height;
+	m_BGColour = Colour;
 
 	// create a renderer using SDL
 	m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_PRESENTVSYNC);
@@ -48,6 +50,22 @@ bool Window::CreateWindow(REString Title, int Width, int Height)
 	}
 
 	return true;
+}
+
+void Window::Render()
+{
+	//set the colour of the background
+	SDL_SetRenderDrawColor(m_Renderer,m_BGColour.r, m_BGColour.g, m_BGColour.b, m_BGColour.a);
+
+	// clear the previos frame content
+	SDL_RenderClear(m_Renderer);
+
+	// render the custom graphics like textures and animations
+	// TO DO; add own graphics functions
+
+
+	//present it to the screeen
+	SDL_RenderPresent(m_Renderer); 
 }
 
 void Window::Destroy()

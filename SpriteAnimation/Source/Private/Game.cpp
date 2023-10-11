@@ -1,6 +1,5 @@
 #include "CoreMinimal.h"
 #include "Game.h"
-#include "SDL2/SDL.h"
 #include "Window/Window.h"
 
 
@@ -47,6 +46,7 @@ Game::Game()
 {
 	std::cout << "Create Game." << std::endl;
 	m_IsRunning = true; 
+	m_Window = nullptr;
 }
 
 Game::~Game()
@@ -75,6 +75,25 @@ void Game::Start()
 
 void Game::ProcessInput()
 {
+	// stoere the inputs pressed in the frame
+	SDL_Event Event; 
+
+	// find the inputs pressed in the frame and update the event variable
+	// an event listener
+	while (SDL_PollEvent(&Event)) {
+		//this will listen to different event types
+		switch (Event.type) {
+		case SDL_QUIT : // when the close button is clicked
+			EndGame();
+			break;
+			case SDL_KEYDOWN :// when the escape button is pressed3
+
+				if (Event.key.keysym.sym == SDLK_ESCAPE) {
+					EndGame();
+				}
+				break;
+		}
+	}
 }
 
 void Game::Update()
@@ -83,6 +102,7 @@ void Game::Update()
 
 void Game::Render()
 {
+	m_Window->Render();
 }
 
 void Game::CleanupGame()
