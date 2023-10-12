@@ -26,7 +26,10 @@ bool REAnimation::ImportAnimation(Window* AssignedWindow, REString PathToFile, R
     //set the anim params if texture worked
     m_AnimParams = AnimParams;
 
+    //auto assigns width and height of animation if not set manually
+    if (m - AnimParams.FrameHeight == 0) {
 
+    }
 
     return true;
 }
