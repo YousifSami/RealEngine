@@ -1,5 +1,6 @@
 #include "CoreMinimal.h"
 #include "Window/Window.h"
+#include "Graphics/RETexture.h"
 
 
 Window::Window()
@@ -61,7 +62,7 @@ void Window::Render()
 	SDL_RenderClear(m_Renderer);
 
 	// render the custom graphics like textures and animations
-	// TO DO; add own graphics functions
+	RenderCustomGraphics();
 
 
 	//present it to the screeen
@@ -78,5 +79,31 @@ void Window::Destroy()
 	// clean up the window
 	if (m_Window != nullptr) {
 		SDL_DestroyWindow(m_Window);
+	}
+}
+
+TSharedPtr<RETexture> Window::CreateTexture(REString PathToFile)
+{
+	// create share ptr instead of an object pointer
+	TSharedPtr<RETexture> NewTexture = TMakeShared<RETexture>();
+
+	//if texture fails to import, return nullptr
+	if (!NewTexture->ImportTexture(m_Renderer, PathToFile)) {
+		return nullptr;
+	}
+
+	//if it succeeded adds it to stack
+	m_TextureStack.push_back(NewTexture);
+
+	return NewTexture;
+}
+
+void Window::RenderCustomGraphics()
+{
+
+	//loop over each element in the array and run render function
+	// itexture will represent the element of each loop
+	for (auto iTexture : m_TextureStack) {
+		iTexture->Render(m_Renderer);
 	}
 }

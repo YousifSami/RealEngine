@@ -16,6 +16,9 @@ public:
 	// closes the app loop and ends the game
 	inline void EndGame() { m_IsRunning = false; }
 
+	//gets delta time as float
+	float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
+
 private:
 	//runs when the class is instantiated
 	// new game()
@@ -38,6 +41,7 @@ private:
 	// update logic of the game based on input and checks - Second in the loop
 	void Update();
 
+
 	// render graphics to the screen - third in the loop
 	void Render();
 
@@ -51,4 +55,7 @@ private:
 
 	// store the window
 	Window* m_Window;
+
+	//time between each frame
+	double m_DeltaTime;
 };

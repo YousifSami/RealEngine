@@ -1,5 +1,7 @@
 #pragma once
 
+class RETexture;
+
 // forward declaration
 struct SDL_Window;
 struct SDL_Renderer;
@@ -15,10 +17,18 @@ public:
 	// @param 3 - height of the window
 	bool CreateWindow(REString Title, int Width, int Height, SDL_Color Colour = {35, 35, 35, 255});
 
+	// render graphics to the window
 	void Render();
 
 	// deallocate memory that the window holds
 	void Destroy();
+
+	// create texture and add texture stack for rendering
+	TSharedPtr<RETexture> CreateTexture(REString PathToFile);
+
+protected:
+	//render custom graphics for the game engine
+	virtual void RenderCustomGraphics();
 
 private:
 	// store the SDL window
@@ -31,4 +41,6 @@ private:
 	REString m_Title;
 	// colour of the background
 	SDL_Color m_BGColour;
+	// window texture stack
+	TSharedArray<RETexture> m_TextureStack;
 };

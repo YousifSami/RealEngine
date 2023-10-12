@@ -101,13 +101,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Private\Game.cpp" />
+    <ClCompile Include="Source\Private\Graphics\REAnimation.cpp" />
     <ClCompile Include="Source\Private\Graphics\RETexture.cpp" />
-    <ClCompile Include="Source\Private\Window.cpp" />
+    <ClCompile Include="Source\Private\Window\Window.cpp" />
     <ClCompile Include="Source\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
+    <ClInclude Include="Source\Public\Graphics\REAnimations.h" />
     <ClInclude Include="Source\Public\Graphics\RETexture.h" />
     <ClInclude Include="Source\Public\Window\Window.h" />
   </ItemGroup>

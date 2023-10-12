@@ -21,10 +21,13 @@
     <ClCompile Include="Source\Private\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Window.cpp">
+    <ClCompile Include="Source\Private\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\Graphics\RETexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\Graphics\REAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Graphics\RETexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\Graphics\REAnimations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

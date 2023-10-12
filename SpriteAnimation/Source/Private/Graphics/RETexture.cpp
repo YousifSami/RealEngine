@@ -4,9 +4,11 @@
 
 RETexture::RETexture()
 {
+	// initialise variables here
 	m_ScreenRect = { 0, 0, 0, 0 };
 	m_ClipRect = nullptr;
 	m_Texture = nullptr;
+	m_Width = m_Height = 0;
 }
 
 RETexture::~RETexture()
@@ -33,8 +35,8 @@ bool RETexture::ImportTexture(SDL_Renderer* Renderer, REString PathToFile)
 	m_Texture = SDL_CreateTextureFromSurface(Renderer, ImageSurface);
 
 	// set the width and height of an image
-	m_ScreenRect.w = ImageSurface->w;
-	m_ScreenRect.h = ImageSurface->h;
+	m_ScreenRect.w = m_Width = ImageSurface->w;
+	m_ScreenRect.h = m_Height = ImageSurface->h;
 	//stores the path
 	m_Path = PathToFile;
 
@@ -51,7 +53,7 @@ bool RETexture::ImportTexture(SDL_Renderer* Renderer, REString PathToFile)
 	return true;
 }
 
-void RETexture::Renderer(SDL_Renderer* Renderer)
+void RETexture::Render(SDL_Renderer* Renderer)
 {
 	//To Do; clip width and height of texture
 

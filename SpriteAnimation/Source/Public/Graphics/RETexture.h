@@ -9,10 +9,16 @@ public:
 	bool ImportTexture(SDL_Renderer* Renderer, REString PathToFile);
 
 	// render texture to the SDL renderer
-	void Renderer(SDL_Renderer* Renderer);
+	void Render(SDL_Renderer* Renderer);
 
 	// deallocate memory
 	void ClearTexture();
+
+	//get original image width
+	inline REUint GetWidth() const { return m_Width; }
+
+	//get original image height
+	inline REUint GetHeight() const { return m_Height; }
 
 public: 
 	// holds screen position and scale of the texture
@@ -27,4 +33,7 @@ private:
 
 	// store original file path
 	REString m_Path;
+
+	// original image witch and height
+	REUint m_Width, m_Height;
 };
