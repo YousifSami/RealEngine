@@ -4,6 +4,7 @@
 
 //debug includes
 #include "Graphics/RETexture.h"
+#include "Graphics/REAnimations.h"
 
 
 Game* Game::GetGameInstance()
@@ -50,6 +51,14 @@ Game::Game()
 	std::cout << "Create Game." << std::endl;
 	m_IsRunning = true; 
 	m_Window = nullptr;
+	m_DeltaTime = 0.0;
+	//debug
+	m_Anim = nullptr;
+	m_Anim2 = nullptr;
+	m_Anim3 = nullptr;
+	m_Anim4 = nullptr;
+	m_Anim5 = nullptr;
+
 }
 
 Game::~Game()
@@ -79,73 +88,102 @@ void Game::Start()
 	TSharedPtr<RETexture> Sprite1 = m_Window->CreateTexture("EngineContent/Images/Letters/HBlue.png");
 	
 	if (Sprite1 != nullptr) {
-		Sprite1->m_ScreenRect.x = 20;
-		Sprite1->m_ScreenRect.y = 100;
+		Sprite1->SetPosition(20.0f, 100.0f);
+
 	}
 
 	TSharedPtr<RETexture> Sprite2 = m_Window->CreateTexture("EngineContent/Images/Letters/ERed.png");
 
 	if (Sprite2 != nullptr) {
-		Sprite2->m_ScreenRect.x = 120;
-		Sprite2->m_ScreenRect.y = 100;
+		Sprite2->SetPosition(120.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite3 = m_Window->CreateTexture("EngineContent/Images/Letters/LBlue.png");
 
 	if (Sprite3 != nullptr) {
-		Sprite3->m_ScreenRect.x = 200;
-		Sprite3->m_ScreenRect.y = 100;
+		Sprite3->SetPosition(200.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite4 = m_Window->CreateTexture("EngineContent/Images/Letters/LRed.png");
 
 	if (Sprite4 != nullptr) {
-		Sprite4->m_ScreenRect.x = 280;
-		Sprite4->m_ScreenRect.y = 100;
+		Sprite4->SetPosition(280.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite5 = m_Window->CreateTexture("EngineContent/Images/Letters/OBlue.png");
 
 	if (Sprite5 != nullptr) {
-		Sprite5->m_ScreenRect.x = 365;
-		Sprite5->m_ScreenRect.y = 100;
+		Sprite5->SetPosition(365.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite6 = m_Window->CreateTexture("EngineContent/Images/Letters/WBlue.png");
 
 	if (Sprite6 != nullptr) {
-		Sprite6->m_ScreenRect.x = 600;
-		Sprite6->m_ScreenRect.y = 100;
+		Sprite6->SetPosition(600.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite7 = m_Window->CreateTexture("EngineContent/Images/Letters/ORed.png");
 
 	if (Sprite7 != nullptr) {
-		Sprite7->m_ScreenRect.x = 720;
-		Sprite7->m_ScreenRect.y = 100;
+		Sprite7->SetPosition(720.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite8 = m_Window->CreateTexture("EngineContent/Images/Letters/RBlue.png");
 
 	if (Sprite8 != nullptr) {
-		Sprite8->m_ScreenRect.x = 830;
-		Sprite8->m_ScreenRect.y = 100;
+		Sprite8->SetPosition(830.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite9 = m_Window->CreateTexture("EngineContent/Images/Letters/LRed.png");
 
 	if (Sprite9 != nullptr) {
-		Sprite9->m_ScreenRect.x = 930;
-		Sprite9->m_ScreenRect.y = 100;
+		Sprite9->SetPosition(930.0f, 100.0f);
 	}
 
 	TSharedPtr<RETexture> Sprite0 = m_Window->CreateTexture("EngineContent/Images/Letters/DBlue.png");
 
 	if (Sprite0 != nullptr) {
-		Sprite0->m_ScreenRect.x = 1030;
-		Sprite0->m_ScreenRect.y = 100;
+		Sprite0->SetPosition(1030.0f, 100.0f);
 	}
 
+	m_Anim = new REAnimation();
+	m_Anim2 = new REAnimation();
+	m_Anim3 = new REAnimation();
+	m_Anim4 = new REAnimation();
+	m_Anim5 = new REAnimation();
+
+	REAnimParams AnimParams;
+	AnimParams.FrameCount = 50;
+	AnimParams.EndFrame = 49;
+	AnimParams.FrameRate = 12.0f;
+
+	m_Anim->ImportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Planet/Planet1-50f.png", AnimParams);
+	m_Anim->SetScale(20.0f, 20.0f);
+	m_Anim->SetPosition(600.0f, 500.0f);
+
+	AnimParams.FrameCount = 30;
+	AnimParams.EndFrame = 29;
+
+	m_Anim2->ImportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Planet/sun-30f.png", AnimParams);
+	m_Anim2->SetPosition(1100.0f, 450.0f);
+
+	AnimParams.FrameCount = 30;
+	AnimParams.EndFrame = 29;
+
+	m_Anim3->ImportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Planet/moon30f.png", AnimParams);
+	m_Anim3->SetPosition(470.0f, 400.0f);
+
+	AnimParams.FrameCount = 30;
+	AnimParams.EndFrame = 29;
+
+	m_Anim4->ImportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Planet/gasgiant30f.png", AnimParams);
+	m_Anim4->SetPosition(10.0f, 400.0f);
+
+	AnimParams.FrameCount = 30; 
+	AnimParams.EndFrame = 29; 
+
+	m_Anim5->ImportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Planet/galaxy30f.png", AnimParams);
+	m_Anim5->SetPosition(500.0f, 140.0f);
 }
 
 void Game::ProcessInput()
@@ -182,6 +220,12 @@ void Game::Update()
 	m_DeltaTime = (CurrentTickTime - LastTickTime) / 1000.0;
 	//update the last tick time
 	LastTickTime = CurrentTickTime;
+
+	m_Anim->Update(GetDeltaTimeF());
+	m_Anim2->Update(GetDeltaTimeF());
+	m_Anim3->Update(GetDeltaTimeF());
+	m_Anim4->Update(GetDeltaTimeF());
+	m_Anim5->Update(GetDeltaTimeF());
 
 
 }

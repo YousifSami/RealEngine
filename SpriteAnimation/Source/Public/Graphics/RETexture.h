@@ -20,11 +20,22 @@ public:
 	//get original image height
 	inline REUint GetHeight() const { return m_Height; }
 
-public: 
+	//sets position of screen
+	void SetPosition(float X, float Y);
+
+	//sets scale of clipped texture
+	void SetDimensions(float W, float H);
+
+	//sets scale of  whole image
+	void SetScale(float W, float H);
+
+
+	void SetClip(int X, int Y, int W, int H);
+
+private:
 	// holds screen position and scale of the texture
 	SDL_FRect m_ScreenRect;
 
-private:
 	// the clip value for the texture
 	SDL_Rect* m_ClipRect;
 
@@ -36,4 +47,7 @@ private:
 
 	// original image witch and height
 	REUint m_Width, m_Height;
+
+	//scaler values to scale size of image
+	float m_ScalarW, m_ScalarH;
 };

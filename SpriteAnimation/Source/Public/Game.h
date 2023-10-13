@@ -2,6 +2,10 @@
 
 class Window;
 
+//debug
+class REAnimation;
+
+
 class Game {
 public:
 	//get or create the game instance if there isn't one already
@@ -58,4 +62,11 @@ private:
 
 	//time between each frame
 	double m_DeltaTime;
+
+	//DEBUG VARIABLEs
+	REAnimation* m_Anim;
+	REAnimation* m_Anim2;
+	REAnimation* m_Anim3;
+	REAnimation* m_Anim4;
+	REAnimation* m_Anim5;
 };

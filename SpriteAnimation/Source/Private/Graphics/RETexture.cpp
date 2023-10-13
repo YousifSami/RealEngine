@@ -9,6 +9,7 @@ RETexture::RETexture()
 	m_ClipRect = nullptr;
 	m_Texture = nullptr;
 	m_Width = m_Height = 0;
+	m_ScalarW = m_ScalarH = 1.0f;
 }
 
 RETexture::~RETexture()
@@ -55,7 +56,10 @@ bool RETexture::ImportTexture(SDL_Renderer* Renderer, REString PathToFile)
 
 void RETexture::Render(SDL_Renderer* Renderer)
 {
-	//To Do; clip width and height of texture
+
+	SDL_FRect ScaledScreenRect = m_ScreenRect;
+	ScaledScreenRect.w *= m_ScalarW;
+	ScaledScreenRect.h *= m_ScalarH;
 
 	//render texture to the screen
 	SDL_RenderCopyExF(
@@ -80,4 +84,36 @@ void RETexture::ClearTexture()
 	if (m_ClipRect != nullptr) {
 		delete m_ClipRect;
 	}
+}
+
+void RETexture::SetPosition(float X, float Y)
+{
+	m_ScreenRect.x = X;
+	m_ScreenRect.y = Y;
+}
+
+void RETexture::SetDimensions(float W, float H)
+{
+	m_ScreenRect.w = W;
+	m_ScreenRect.h = H;
+}
+
+void RETexture::SetScale(float W, float H)
+{
+	m_ScalarW = W;
+	m_ScalarH = H;
+
+}
+
+void RETexture::SetClip(int X, int Y, int W, int H)
+{
+	if (m_ClipRect == nullptr) {
+		m_ClipRect = new SDL_Rect();
+	}
+
+	m_ClipRect->x = X;
+	m_ClipRect->y = Y;
+	m_ClipRect->w = W;
+	m_ClipRect->h = H;
+
 }
