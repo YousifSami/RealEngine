@@ -29,8 +29,18 @@ public:
 	//sets scale of  whole image
 	void SetScale(float W, float H);
 
-
+	//set the clip range of the image
 	void SetClip(int X, int Y, int W, int H);
+
+	//set visibility of texture
+	 void SetVisibility(bool IsVisible) { m_Visibility = IsVisible; }
+
+
+	//gets visibility of the texture
+	 bool  GetVisibility() const { return m_Visibility; }
+
+	 //rotate the angle of the texture
+	 void SetRotation(double NewRot) { m_Rotation = NewRot; }
 
 private:
 	// holds screen position and scale of the texture
@@ -50,4 +60,10 @@ private:
 
 	//scaler values to scale size of image
 	float m_ScalarW, m_ScalarH;
+
+	//hides texture
+	bool m_Visibility;
+
+	// angle of rotation of sprites
+	double m_Rotation;
 };

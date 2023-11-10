@@ -1,9 +1,11 @@
 #pragma once
 
 class Window;
+class REInput;
 
 //debug
-class REAnimation;
+class REAnimStateMachine;
+class REGameObject;
 
 
 class Game {
@@ -22,6 +24,21 @@ public:
 
 	//gets delta time as float
 	float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
+
+	//add a game object to the game
+	template<class G, typename std::enable_if<std::is_base_of<REGameObject, G>::value>::type* = nullptr>
+	inline TSharedPtr<G> AddGameObject(REString ObjectName = "GameObject") {
+		TSharedPtr<G> NewGameObject = TMakeShared<G>(ObjectName, m_Window);
+
+		if (NewGameObject == nullptr) {
+			RELog("GameObject failed to create: " + ObjectName);
+			return nullptr;
+		}
+
+		m_GameObjectStack.push_back(NewGameObject);
+
+		return NewGameObject;
+	}
 
 private:
 	//runs when the class is instantiated
@@ -63,10 +80,9 @@ private:
 	//time between each frame
 	double m_DeltaTime;
 
-	//DEBUG VARIABLEs
-	REAnimation* m_Anim;
-	REAnimation* m_Anim2;
-	REAnimation* m_Anim3;
-	REAnimation* m_Anim4;
-	REAnimation* m_Anim5;
+	//stores game inputs
+	REInput* m_GameInput;
+
+	// hold all the game objects in the game
+	TSharedArray<REGameObject> m_GameObjectStack;
 };

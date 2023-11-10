@@ -20,6 +20,12 @@ public:
 	//set the scale of the animation  
 	void SetScale(int W, int H);
 
+	// ser the rotation of the animation
+	void SetRotation(float NewRot);
+
+	//sets animation visibility
+	void SetVisiblility(bool IsVisible);
+
 private:
 	void ClipAnimation();
 

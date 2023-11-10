@@ -17,6 +17,8 @@ using TSharedArray = TArray<TSharedPtr<T>>;
 
 typedef uint32_t REUint;
 
+typedef uint8_t REUint8;
+
 // replace the standard make shared
 template <typename T, typename... Params>
 TSharedPtr<T> TMakeShared(Params&&... params) {
@@ -39,9 +41,22 @@ struct REAnimParams {
 		FrameRate(24.0f) 
 	{}
 		
-	REUint StartFrame, EndFrame;
-	REUint FrameCount;
-	REUint FrameWidth, FrameHeight;
-	REUint RowCount,Row;
-	float FrameRate;
+		REUint StartFrame, EndFrame;
+		REUint FrameCount;
+		REUint FrameWidth, FrameHeight;
+		REUint RowCount,Row;
+		float FrameRate;
+};
+
+struct RESpriteParams {
+	RESpriteParams():
+		Frame(0),
+		FrameCount(0),
+		FrameWidth(0), FrameHeight(0),
+		RowCount(1), Row(0) {}
+
+		REUint Frame;
+		REUint FrameCount;
+		REUint FrameWidth, FrameHeight;
+		REUint RowCount, Row;
 };

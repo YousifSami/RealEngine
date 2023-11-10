@@ -10,6 +10,8 @@ RETexture::RETexture()
 	m_Texture = nullptr;
 	m_Width = m_Height = 0;
 	m_ScalarW = m_ScalarH = 1.0f;
+	m_Visibility = true;
+	m_Rotation = 0.0;
 }
 
 RETexture::~RETexture()
@@ -56,6 +58,9 @@ bool RETexture::ImportTexture(SDL_Renderer* Renderer, REString PathToFile)
 
 void RETexture::Render(SDL_Renderer* Renderer)
 {
+	if (!m_Visibility) {
+		return;
+	}
 
 	SDL_FRect ScaledScreenRect = m_ScreenRect;
 	ScaledScreenRect.w *= m_ScalarW;
@@ -67,7 +72,7 @@ void RETexture::Render(SDL_Renderer* Renderer)
 		m_Texture,
 		m_ClipRect,
 		&m_ScreenRect,
-		0.0,
+		m_Rotation,
 		nullptr,
 		SDL_FLIP_NONE
 	);
