@@ -1,6 +1,10 @@
 #include "CoreMinimal.h"
 #include "Window/Window.h"
 #include "Graphics/RETexture.h"
+#include "Game.h"
+#include "Collisions/RECollisionEngine.h"
+#include "Collisions/RECollision.h"
+#include "Window/REWindowMenu.h"
 
 
 Window::Window()
@@ -10,12 +14,16 @@ Window::Window()
 	m_Width = m_Height = 0;
 	m_Title = "";
 	m_BGColour = { 35, 35, 35, 255 };
+	m_WindowMenu = nullptr;
 }
 
 Window::~Window()
 {
 	m_Window = nullptr;
 	m_Renderer = nullptr;
+
+	delete m_WindowMenu;
+	m_WindowMenu = nullptr;
 }
 
 bool Window::CreateWindow(REString Title, int Width, int Height, SDL_Color Colour)
@@ -49,6 +57,10 @@ bool Window::CreateWindow(REString Title, int Width, int Height, SDL_Color Colou
 		Destroy();
 		return false;
 	}
+
+	//create a window menu
+	m_WindowMenu = new REWindowMenu(m_Window);
+	m_WindowMenu->initialiseMenu();
 
 	return true;
 }
@@ -105,5 +117,23 @@ void Window::RenderCustomGraphics()
 	// itexture will represent the element of each loop
 	for (auto iTexture : m_TextureStack) {
 		iTexture->Render(m_Renderer);
+	}
+
+	//draw collisions that are set to debug
+	for (auto Col : Game::GetGameInstance()->GetCollision()->GetCollisions()) {
+		if (!Col->Debug) {
+			continue;
+		}
+
+		//set the draw rect to the same value as out bounds
+		SDL_FRect DrawRect;
+		DrawRect.x = Col->Bounds.x;
+		DrawRect.y = Col->Bounds.y;
+		DrawRect.w = Col->Bounds.w;
+		DrawRect.h = Col->Bounds.h;
+
+		//this sets the colour of the box
+		SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
+		SDL_RenderDrawRectF(m_Renderer, &DrawRect);
 	}
 }

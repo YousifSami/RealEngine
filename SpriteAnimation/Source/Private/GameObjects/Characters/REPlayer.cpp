@@ -3,15 +3,20 @@
 
 #include"GameObjects/Components/REMovementComponent.h"
 #include "GameObjects/Components/RESpriteComponent.h"
+#include "GameObjects/Components/RECollisionComponent.h"
 #include "REInput.h"
+#include "Window/Window.h"
+
+#define PLAYER_SIZE 48.0f
 
 REPlayer::REPlayer(REString DefaultName, Window* AssignedWindow)
 	: RECharacter(DefaultName, AssignedWindow)
 {
+	m_CharacterSize = REVector2(48.0f);
 	m_EngineSprite = AddComponent<RESpriteComponent>();
 	m_EngineEffect = AddComponent<RESpriteComponent>();
 
-	m_PlayerAcceleration = 100.0f;
+	m_PlayerAcceleration = 10.0f;
 	GetMovementComponent()->m_MaxVelocity = 2;
 	GetMovementComponent()->m_Drag = -2.0f;
 
@@ -37,7 +42,16 @@ REPlayer::REPlayer(REString DefaultName, Window* AssignedWindow)
 		, AnimParams);
 
 
-	SetScale(5.0f);
+
+}
+
+void REPlayer::BeginPlay()
+{
+	RECharacter::BeginPlay();
+	GetCollisionComponent()->GetCollision()->Bounds.w = -GetScaledCharacterSize().x * 0.7f;
+	GetCollisionComponent()->GetCollision()->Bounds.h = -GetScaledCharacterSize().y * 0.7f;
+	GetCollisionComponent()->BoundsOffset.x = 41.0f;
+	GetCollisionComponent()->BoundsOffset.y = 45.0f;
 }
 
 void REPlayer::Update(float DeltaTime)
@@ -46,9 +60,7 @@ void REPlayer::Update(float DeltaTime)
 
 	GetMovementComponent()->AddForce(m_MovementDir, m_PlayerAcceleration);
 
-	if (GetTransform()->Position.y > 720.0f) {
-		SetPosition({ GetTransform()->Position.x, -200.0f });
-	}
+	LimitPlayerX();
 
 }
 
@@ -60,14 +72,6 @@ void REPlayer::ProcessInput(REInput* GameInput)
 	//this will also make sure we haven no input direction when no pressing anything
 	m_MovementDir = REVector2::Zero();
 
-	//move up when pressing W
-	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
-		m_MovementDir += REVector2(0.0f, -1.0f);
-	}
-	//move down when pressing S
-	if (GameInput->IsKeyDown(SDL_SCANCODE_S)) {
-		m_MovementDir += REVector2(0.0f, 1.0f);
-	}
 	//move left when pressing A
 	if (GameInput->IsKeyDown(SDL_SCANCODE_A)) {
 		m_MovementDir += REVector2(-1.0f, 0.0f);
@@ -85,4 +89,36 @@ void REPlayer::ProcessInput(REInput* GameInput)
 		m_EngineEffect->SetSpriteIndex(0); // set engines to idle
 	}
 
+}
+
+void REPlayer::OnBeginOverlap(RECollision* Col)
+{
+	RECharacter::OnBeginOverlap(Col);
+
+	RELog("Collision overlapped");
+}
+
+void REPlayer::OnEndOverlap(RECollision* Col)
+{
+	RECharacter::OnEndOverlap(Col);
+
+	RELog("Collision end overlapped");
+}
+
+
+void REPlayer::LimitPlayerX()
+{
+	//getting the width of the window and casting it to a float
+	float WindowWidth = static_cast<float>(GetWindow()->GetWidth());
+	// makes sure window width considers the players size
+	float PlayerSizeWindow = WindowWidth - GetScaledCharacterSize().x;
+
+
+	if (GetTransform()->Position.x <= 0.0f) {
+		SetPosition({ 0.0f, GetTransform()->Position.y });
+	}
+
+	if (GetTransform()->Position.x >= PlayerSizeWindow) {
+		SetPosition({ PlayerSizeWindow, GetTransform()->Position.y });
+	}
 }

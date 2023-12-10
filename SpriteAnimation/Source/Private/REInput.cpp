@@ -2,6 +2,10 @@
 #include "REInput.h"
 
 #include "Game.h"
+#include "Window/REWindowMenu.h"
+#include "Window/Window.h"
+#include "SDL2/SDL_syswm.h"
+#include "../../resource.h"
 
 REInput::REInput()
 {
@@ -36,6 +40,10 @@ void REInput::ProcessInput()
 		case SDL_QUIT: // when the close button is clicked
 			Game::GetGameInstance()->EndGame();
 			break;
+
+		case SDL_SYSWMEVENT:
+			HandleWMEvents(Event);
+			break;
 		}
 	}
 }
@@ -67,4 +75,33 @@ void REInput::OnMouseButtonChanged(SDL_MouseButtonEvent Event, bool IsPressed)
 		m_MouseStates[MB_MIDDLE] = IsPressed;
 		break;
 	}
+}
+
+void REInput::HandleWMEvents(SDL_Event Event)
+{
+	REString Title;
+	REString Message;
+
+	switch (Event.syswm.msg->msg.win.wParam)
+	{
+	case ID_FILE_RESTART :
+		Game::GetGameInstance()->GetWindow()->GetWindowMenu()->RestartGame();
+		break;
+	case ID_FILE_EXIT:
+		Game::GetGameInstance()->GetWindow()->GetWindowMenu()->ExitApp();
+		break;
+	case ID_GAMECONTROLS:
+		 Title = REString("Controls");
+		 Message = REString("A to move left \n D to move right \n Left mouse button to shoot");
+		Game::GetGameInstance()->GetWindow()->GetWindowMenu()->ActivatePopup(Title, Message);
+		break;
+	case ID_HELP_ABOUTREALENGINE:
+		Title = REString("About the Engine");
+		Message = REString(" REngine is an SDL2-based C++ 2D game engine created by Yousif in 2023");
+		Game::GetGameInstance()->GetWindow()->GetWindowMenu()->ActivatePopup(Title, Message);
+		break;
+	default:
+		break;
+	}
+
 }

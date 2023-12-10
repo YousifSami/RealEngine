@@ -1,12 +1,14 @@
 #include "CoreMinimal.h"
 #include "GameObjects/REGameObject.h"
 #include "GameObjects/Components/REComponent.h"
-#include "GameObjects/Components/RETransformComponent.h"
+#include "Game.h"
+
 
 REGameObject::REGameObject(REString DefaultName, Window* AssignedWindow) 
 	: m_Name(DefaultName), m_Window(AssignedWindow)
 {
 	m_Transform = AddComponent<RETransformComponent>();
+	m_ShouldDestroy = false;
 }
 
 void REGameObject::BeginPlay()
@@ -65,6 +67,12 @@ void REGameObject::Destroy()
 	//removes all references to memory in the array
 	//because the components are shared ptrs they will delete themselves
 	m_Components.clear();
+
+	//lets game objects know this game object wants to be removed
+	m_ShouldDestroy = true;
+
+	//call the game instance destroy game object to remove from the game
+	Game::GetGameInstance()->RemoveGameObject(this);
 }
 
 void REGameObject::SetPosition(REVector2 Position)

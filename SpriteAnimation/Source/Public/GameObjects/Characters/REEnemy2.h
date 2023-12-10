@@ -8,6 +8,8 @@ public:
 
     void Update(float DeltaTime) override;
 
+    void BeginPlay() override;
+
 private:
     //sprite component for engine effect animation
     TSharedPtr<RESpriteComponent> m_EngineEffect;

@@ -1,10 +1,9 @@
 #pragma once
 
-class RETexture;
-
 // forward declaration
-struct SDL_Window;
-struct SDL_Renderer;
+class RETexture;
+class REText;
+class REWindowMenu;
 
 class Window {
 public:
@@ -26,13 +25,22 @@ public:
 	// create texture and add texture stack for rendering
 	TSharedPtr<RETexture> CreateTexture(REString PathToFile);
 
+	//get width of the window
+	int GetWidth() const { return m_Width; }
+
+	//get height of the window
+	int GetHeight() const { return m_Height; }
+
+	//gets  the win32 menu attached to this window
+	REWindowMenu* GetWindowMenu() const { return m_WindowMenu; }
+
 protected:
 	//render custom graphics for the game engine
 	virtual void RenderCustomGraphics();
 
 private:
 	// store the SDL window
-	SDL_Window* m_Window;
+	SDL_Window* m_Window;   
 	// store the SDL renderer
 	SDL_Renderer* m_Renderer;
 	// store the width and height
@@ -43,4 +51,6 @@ private:
 	SDL_Color m_BGColour;
 	// window texture stack
 	TSharedArray<RETexture> m_TextureStack;
+	//window menu for window
+	REWindowMenu* m_WindowMenu;
 };

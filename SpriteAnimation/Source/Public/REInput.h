@@ -24,6 +24,9 @@ private:
 	//listen for mouse buttons changing
 	void OnMouseButtonChanged(SDL_MouseButtonEvent Event, bool IsPressed);
 
+	//listen and handle any win32 menu events
+	void HandleWMEvents(SDL_Event Event);
+
 private:
 
 	//stores state of each button on keyboard

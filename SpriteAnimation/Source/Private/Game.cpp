@@ -7,9 +7,8 @@
 
 //debug header
 #include "GameObjects/Characters/REPlayer.h"
-#include "GameObjects/Characters/REEnemy.h"
-#include <GameObjects/Characters/REEnemy2.h>
-
+#include "GameObjects/Characters/REEnemy2.h"
+#include "Collisions/RECollisionEngine.h"
 
 Game* Game::GetGameInstance()
 {
@@ -50,6 +49,28 @@ void Game::Run()
 	CleanupGame();
 }
 
+void Game::RemoveGameObject(REGameObject* GameObject)
+{
+	auto it = std::find(m_GameObjectStack.begin(), m_GameObjectStack.end(), GameObject);
+
+	// if it == end() that means its reached the empty item in the vector array which means there's no item 
+	if (it == m_GameObjectStack.end())
+		return;
+
+	//delete the game object from the memory
+	delete *it;
+
+	//making sure the memory is set to nullptr when deleted
+	*it = nullptr;
+
+	
+}
+
+void Game::RestartGame()
+{
+	
+}
+
 Game::Game()
 {
 	std::cout << "Create Game." << std::endl;
@@ -57,6 +78,10 @@ Game::Game()
 	m_Window = nullptr;
 	m_DeltaTime = 0.0;
 	m_GameInput = nullptr;
+
+	//Debug
+	m_Player = nullptr;
+	m_CollisionEngine = nullptr;
 }
 
 Game::~Game()
@@ -78,19 +103,27 @@ void Game::Start()
 {
 	m_Window = new Window();
 
-	if (!m_Window->CreateWindow("Real Engine", 1280, 720, { 50, 50 , 50 , 255})) {
+	if (!m_Window->CreateWindow("Real Engine", 1280, 720, { 15, 10 , 10 , 200})) {
 		EndGame();
 		return;
 	}
 
 	m_GameInput = new REInput();
-
+	m_CollisionEngine = new RECollisionEngine;
 
 	//debug add test game object
-	AddGameObject<REEnemy2>()->SetPosition({ 700.0f, -150.0f });
-	AddGameObject<REEnemy>()->SetPosition({ 500.0f, -150.0f });
-	AddGameObject<REPlayer>();
+	REEnemy2* Enemy = AddGameObject<REEnemy2>();
+	m_Player = AddGameObject<REPlayer>();
 	
+	Enemy->SetPosition({
+		(static_cast<float>(Enemy->GetWindow()->GetWidth()) * 0.5f) - 64.0f, //setting the x position to the middle of the screen
+		-64.0f
+		});
+
+	m_Player->SetPosition({
+		(static_cast<float>(m_Player->GetWindow()->GetWidth()) * 0.5f) - (48.0f),
+		(static_cast<float>(m_Player->GetWindow()->GetHeight()) * 0.8f) - (48.0f)
+	});
 
 	// loop through all the game objects in the game and run their begin play
 	for (auto GameObject : m_GameObjectStack) {
@@ -147,6 +180,10 @@ void Game::Update()
 
 		GameObject->Update(GetDeltaTimeF());
 	}
+
+	static float GameTimer = 0.0f;
+	GameTimer += GetDeltaTimeF();
+
 }
 
 void Game::Render()

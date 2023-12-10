@@ -7,6 +7,7 @@ class REInput;
 class REComponent;
 class RETransformComponent;
 struct REVector2;
+class RECollision;
 
 class REGameObject {
 public:
@@ -21,6 +22,14 @@ public:
 
 	//update logic for game object
 	virtual void Update(float DeltaTime);
+
+	//activate when a collision overlaps with this game objects collision
+	//this will only run if there is a collision component on the game object
+	virtual void OnBeginOverlap(RECollision* Col) {}
+
+	//activate when a collision stops overlapping with the game objects collision
+	//this will only run if there is a collision component on the game object
+	virtual  void OnEndOverlap(RECollision* Col) {}
 
 	//destroys the objects and its components
 	void Destroy();
@@ -39,6 +48,9 @@ public:
 
 	//get the window the game object is assigned
 	Window* GetWindow() const { return m_Window; }
+
+	// if destroyed wait for garbage collection
+	bool IsPendingDestroy() const { return m_ShouldDestroy; }
 
 protected:
 	//runs when obeject is destroyed and before the component are destroyed
@@ -60,6 +72,7 @@ protected:
 		m_Components.push_back(NewComponent);
 
 		return NewComponent;
+
 	}
 
 private:
@@ -74,4 +87,7 @@ private:
 
 	//holds the transform information for the game object
 	TSharedPtr<RETransformComponent> m_Transform;
+
+	//flag a game object should be destroyed
+	bool m_ShouldDestroy;
 };

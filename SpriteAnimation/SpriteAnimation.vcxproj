@@ -100,8 +100,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\Window\REWindowMenu.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\RECollisionComponent.cpp" />
+    <ClCompile Include="Source\Private\Collisions\RECollisionEngine.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Characters\REEnemy2.cpp" />
-    <ClCompile Include="Source\Private\GameObjects\Characters\REEnemy.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Characters\REPlayer.cpp" />
     <ClCompile Include="Source\Private\Game.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\REComponent.cpp" />
@@ -119,8 +121,13 @@
     <ClCompile Include="Source\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\Public\Window\REWindowMenu.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\RECollisionComponent.h" />
+    <ClInclude Include="Source\Public\Collisions\REBounds.h" />
+    <ClInclude Include="Source\Public\Collisions\RECollision.h" />
+    <ClInclude Include="Source\Public\Collisions\RECollisionEngine.h" />
     <ClInclude Include="Source\Public\GameObjects\Characters\REEnemy2.h" />
-    <ClInclude Include="Source\Public\GameObjects\Characters\REEnemy.h" />
     <ClInclude Include="Source\Public\GameObjects\Characters\REPlayer.h" />
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
@@ -136,6 +143,9 @@
     <ClInclude Include="Source\Public\Math\REVector2.h" />
     <ClInclude Include="Source\Public\REInput.h" />
     <ClInclude Include="Source\Public\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WindowMenu.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
